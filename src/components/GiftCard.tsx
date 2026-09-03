@@ -1,74 +1,81 @@
-import { flowerById, type ThemeId } from "@/lib/flowers";
+import { bouquetById, themeClass, toEmbedUrl } from "@/lib/gift";
 
 type Props = {
   senderName: string;
   recipientName: string;
   message: string;
-  flowers: string[];
-  theme: ThemeId | string;
+  bouquet: string;
+  theme: string;
   occasion?: string;
-};
-
-const themeShell: Record<string, string> = {
-  garden: "bg-card text-card-foreground border-border",
-  letter: "bg-paper text-paper-foreground border-transparent",
-  dusk: "bg-secondary text-secondary-foreground border-border",
+  songUrl?: string | null;
+  showSong?: boolean;
 };
 
 export function GiftCard({
   senderName,
   recipientName,
   message,
-  flowers,
+  bouquet,
   theme,
   occasion,
+  songUrl,
+  showSong = false,
 }: Props) {
-  const picked = flowers.map(flowerById).filter(Boolean);
+  const bq = bouquetById(bouquet);
+  const embed = showSong ? toEmbedUrl(songUrl) : null;
 
   return (
     <article
-      className={`animate-bloom relative overflow-hidden rounded-3xl border p-8 shadow-paper sm:p-10 ${
-        themeShell[theme] ?? themeShell["garden"]
-      }`}
+      className={`animate-bloom relative overflow-hidden rounded-3xl border p-7 shadow-paper sm:p-10 ${themeClass(theme)}`}
     >
-      {occasion ? (
-        <p className="text-xs uppercase tracking-[0.3em] opacity-70">{occasion}</p>
-      ) : null}
+      <div className="gift-theme-glow" aria-hidden="true" />
 
-      <h2 className="mt-3 text-4xl leading-tight sm:text-5xl">
-        Untuk {recipientName || "kamu"},
-      </h2>
+      <div className="relative">
+        {occasion ? (
+          <p className="text-xs uppercase tracking-[0.3em] opacity-70">{occasion}</p>
+        ) : null}
 
-      <div className="mt-8 flex min-h-56 flex-wrap items-end justify-center gap-2">
-        {picked.length === 0 ? (
-          <p className="text-sm opacity-60">Pilih bunga untuk merangkai buketnya.</p>
-        ) : (
-          picked.map((f, i) => (
-            <img
-              key={f!.id}
-              src={f!.image}
-              alt={f!.name}
-              loading="lazy"
-              width={640}
-              height={896}
-              className="animate-sway h-48 w-auto origin-bottom object-contain sm:h-60"
-              style={{ animationDelay: `${i * 0.4}s` }}
-            />
-          ))
-        )}
-      </div>
+        <h2 className="mt-3 font-display text-4xl leading-tight sm:text-5xl">
+          Untuk {recipientName || "kamu"},
+        </h2>
 
-      <p className="mt-8 whitespace-pre-wrap text-lg leading-relaxed">
-        {message || "Tulis pesanmu di sini…"}
-      </p>
+        <div className="mt-6 flex justify-center">
+          <img
+            src={bq.image}
+            alt={bq.name}
+            loading="lazy"
+            width={1024}
+            height={1024}
+            className="animate-sway h-64 w-auto origin-bottom object-contain drop-shadow-xl sm:h-80"
+          />
+        </div>
 
-      <p className="mt-8 font-display text-2xl">— {senderName || "Seseorang"}</p>
-
-      {picked.length > 0 ? (
-        <p className="mt-6 text-xs opacity-60">
-          {picked.map((f) => `${f!.name}: ${f!.meaning}`).join(" · ")}
+        <p className="mt-4 text-center text-xs uppercase tracking-[0.25em] opacity-60">
+          {bq.name}
         </p>
-      ) : null}
+
+        <p className="mt-7 whitespace-pre-wrap text-lg leading-relaxed">
+          {message || "Tulis pesanmu di sini…"}
+        </p>
+
+        <p className="mt-8 font-display text-2xl">— {senderName || "Seseorang"}</p>
+
+        <p className="mt-6 text-xs opacity-60">
+          {bq.blooms} · {bq.meaning}
+        </p>
+
+        {embed ? (
+          <div className="mt-6 overflow-hidden rounded-2xl">
+            <iframe
+              src={embed}
+              title="Lagu untukmu"
+              loading="lazy"
+              allow="autoplay; clipboard-write; encrypted-media; picture-in-picture"
+              className="h-40 w-full border-0"
+            />
+          </div>
+        ) : null}
+      </div>
     </article>
   );
 }
