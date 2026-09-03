@@ -10,33 +10,53 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as BuatRouteImport } from './routes/buat'
+import { Route as KartuIdRouteImport } from './routes/kartu.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BuatRoute = BuatRouteImport.update({
+  id: '/buat',
+  path: '/buat',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KartuIdRoute = KartuIdRouteImport.update({
+  id: '/kartu/$id',
+  path: '/kartu/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/buat': typeof BuatRoute
+  '/kartu/$id': typeof KartuIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/buat': typeof BuatRoute
+  '/kartu/$id': typeof KartuIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/buat': typeof BuatRoute
+  '/kartu/$id': typeof KartuIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/buat' | '/kartu/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/buat' | '/kartu/$id'
+  id: '__root__' | '/' | '/buat' | '/kartu/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BuatRoute: typeof BuatRoute
+  KartuIdRoute: typeof KartuIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +68,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/buat': {
+      id: '/buat'
+      path: '/buat'
+      fullPath: '/buat'
+      preLoaderRoute: typeof BuatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/kartu/$id': {
+      id: '/kartu/$id'
+      path: '/kartu/$id'
+      fullPath: '/kartu/$id'
+      preLoaderRoute: typeof KartuIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BuatRoute: BuatRoute,
+  KartuIdRoute: KartuIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
