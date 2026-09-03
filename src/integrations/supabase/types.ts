@@ -14,7 +14,39 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      cards: {
+        Row: {
+          created_at: string
+          flowers: string[]
+          id: string
+          message: string
+          occasion: string
+          recipient_name: string
+          sender_name: string
+          theme: string
+        }
+        Insert: {
+          created_at?: string
+          flowers?: string[]
+          id?: string
+          message?: string
+          occasion?: string
+          recipient_name?: string
+          sender_name?: string
+          theme?: string
+        }
+        Update: {
+          created_at?: string
+          flowers?: string[]
+          id?: string
+          message?: string
+          occasion?: string
+          recipient_name?: string
+          sender_name?: string
+          theme?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
