@@ -16,33 +16,42 @@ export type Database = {
     Tables: {
       cards: {
         Row: {
+          bouquet: string
           created_at: string
-          flowers: string[]
+          flowers: string[] | null
           id: string
           message: string
           occasion: string
+          opener: string
           recipient_name: string
           sender_name: string
+          song_url: string | null
           theme: string
         }
         Insert: {
+          bouquet?: string
           created_at?: string
-          flowers?: string[]
+          flowers?: string[] | null
           id?: string
           message?: string
           occasion?: string
+          opener?: string
           recipient_name?: string
           sender_name?: string
+          song_url?: string | null
           theme?: string
         }
         Update: {
+          bouquet?: string
           created_at?: string
-          flowers?: string[]
+          flowers?: string[] | null
           id?: string
           message?: string
           occasion?: string
+          opener?: string
           recipient_name?: string
           sender_name?: string
+          song_url?: string | null
           theme?: string
         }
         Relationships: []
