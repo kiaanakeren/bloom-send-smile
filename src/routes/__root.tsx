@@ -108,7 +108,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="id">
       <head>
         <HeadContent />
       </head>
@@ -120,13 +120,40 @@ function RootShell({ children }: { children: ReactNode }) {
   );
 }
 
+function SiteHeader() {
+  return (
+    <header className="mx-auto flex max-w-6xl items-center justify-between px-6 py-6">
+      <Link to="/" className="font-display text-2xl">
+        Bloomly
+      </Link>
+      <nav className="flex items-center gap-3 text-sm">
+        <Link to="/buat" className="text-muted-foreground transition hover:text-foreground">
+          Buat kartu
+        </Link>
+        <Link
+          to="/buat"
+          className="rounded-full bg-cream px-5 py-2.5 text-cream-foreground transition hover:opacity-90"
+        >
+          Kirim bunga
+        </Link>
+      </nav>
+    </header>
+  );
+}
+
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
   return (
     <QueryClientProvider client={queryClient}>
+      <SiteHeader />
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
+      <footer className="mx-auto max-w-6xl px-6 py-12 text-xs text-muted-foreground">
+        Bloomly · bunga digital yang tak pernah layu.
+      </footer>
+      <Toaster />
     </QueryClientProvider>
   );
+
 }
