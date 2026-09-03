@@ -52,7 +52,7 @@ function Landing() {
           </div>
         </div>
 
-        <div className="relative rounded-4xl border border-border bg-card/60 p-8 shadow-bloom">
+        <div className="relative overflow-hidden rounded-4xl border border-border bg-card/60 p-8 shadow-bloom">
           <div className="flex items-end justify-center gap-1">
             {FLOWERS.slice(0, 4).map((f, i) => (
               <img
